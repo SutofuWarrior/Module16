@@ -109,6 +109,10 @@ namespace Task4
         public string Group { get; set; }
         public DateTime DateOfBirth { get; set; }
 
+        public Student()
+        {
+        }
+
         public Student(string name, string group, DateTime date)
         {
             Name = name;
