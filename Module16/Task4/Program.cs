@@ -12,7 +12,8 @@ namespace Task4
     {
         static void Main()
         {
-            string sourcePath = Path.Combine(AppContext.BaseDirectory, "Students.dat");
+            string sourcePath = Path.Combine(AppContext.BaseDirectory, "Students2.dat");
+            CreateMySource(sourcePath);
 
             if (!File.Exists(sourcePath))
             {
@@ -80,7 +81,7 @@ namespace Task4
 
             foreach (var group in groups)
             {
-                string groupFilePath = Path.Combine(folderPath, group.Key);
+                string groupFilePath = Path.Combine(folderPath, $"{group.Key}.txt");
 
                 try
                 {
@@ -99,6 +100,25 @@ namespace Task4
                     break;
                 }
             }
+        }
+
+        private static void CreateMySource(string sourcePath)
+        {
+            var students = new Student[]
+            {
+                new Student { Name = "Name1", Group = "Group1", DateOfBirth = new DateTime(2000, 1, 1) },
+                new Student { Name = "Name2", Group = "Group2", DateOfBirth = new DateTime(2001, 2, 3) },
+                new Student { Name = "Name3", Group = "Group1", DateOfBirth = new DateTime(2002, 3, 5) },
+                new Student { Name = "Name4", Group = "Group3", DateOfBirth = new DateTime(2003, 4, 7) },
+                new Student { Name = "Name5", Group = "Group2", DateOfBirth = new DateTime(2004, 5, 9) }
+            };
+
+            File.Delete(sourcePath);
+
+            using var file = new FileStream(sourcePath, FileMode.CreateNew, FileAccess.Write);
+            var formatter = new BinaryFormatter();
+
+            formatter.Serialize(file, students);
         }
     }
 
